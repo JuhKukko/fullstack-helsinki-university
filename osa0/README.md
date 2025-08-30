@@ -4,7 +4,9 @@ Here is a simple flow chart:
 sequenceDiagram
     participant browser
     participant server
-    
+
+    <!-- User clicks the save button -->
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note FORM DATA: content of text-input: note=...
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server-->>browser: HTML document
