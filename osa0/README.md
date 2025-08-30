@@ -37,7 +37,7 @@ sequenceDiagram
     Note right of browser: The browser executes the callback function that renders the notes 
 ```
 
-Part 0 task 0.5: Single Page App
+Part 0 task 0.5: Single Page App TODO
 
 ```mermaid
 sequenceDiagram
@@ -46,3 +46,5 @@ sequenceDiagram
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
 ```
+
+Part 0 task 0.6: TODO
