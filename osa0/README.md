@@ -10,7 +10,7 @@ sequenceDiagram
     user->>browser: Clicks the save button
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note /form\nContent-Type: application/x-www-form-urlencoded note over browser,server: Body: note=something
     activate server
-    server-->browser Redirect to /exampleapp/notes
+    server-->>browser: Redirect to /exampleapp/notes
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     server-->>browser: HTML document
     deactivate server
