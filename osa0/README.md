@@ -1,4 +1,4 @@
-Part 0 solutions or answers:
+Part 0 task 0.4: uusi muistiinpano
 
 ```mermaid
 sequenceDiagram
@@ -11,7 +11,9 @@ sequenceDiagram
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note Content-Type: application/x-www-form-urlencoded Body: note=<user input from the text field "note">
     activate server
     server-->>browser: The server stores the note from the request and then redirects to /exampleapp/notes with status code 302.
+    deactivate server
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
     server-->>browser: HTML document
     deactivate server
     
@@ -33,4 +35,14 @@ sequenceDiagram
     deactivate server    
 
     Note right of browser: The browser executes the callback function that renders the notes 
+```
+
+Part 0 task 0.5: Single Page App
+
+```mermaid
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
 ```
