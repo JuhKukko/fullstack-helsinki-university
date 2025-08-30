@@ -1,4 +1,4 @@
-Here is a simple flow chart:
+Part 0 solutions or answers:
 
 ```mermaid
 sequenceDiagram
@@ -8,9 +8,9 @@ sequenceDiagram
     
     Note right of browser: User clicks the save button
     user->>browser: Clicks the save button
-    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note Content-Type: application/x-www-form-urlencoded note over browser,server: Body: note=something
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note Content-Type: application/x-www-form-urlencoded Body: note=something
     activate server
-    server-->>browser: Server stores the note from the request and then redirects to /exampleapp/notes with status code 302.
+    server-->>browser: The server stores the note from the request and then redirects to /exampleapp/notes with status code 302.
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     server-->>browser: HTML document
     deactivate server
