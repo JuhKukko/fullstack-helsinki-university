@@ -69,4 +69,15 @@ sequenceDiagram
     Note right of browser: The browser executes the callback function that renders the notes 
 ```
 
-Part 0 task 0.6: TODO
+Part 0 task 0.6: Uusi muistiinpano (SPA)
+
+```mermaid
+sequenceDiagram
+    participant user
+    participant browser
+    participant server
+
+    Note right of browser: User clicks the save button
+    user->>browser: Clicks the save button
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa Content-Type: application/json Body:  { content: <user input from the text field "note">, date: new Date() }
+```
