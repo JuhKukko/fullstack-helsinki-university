@@ -37,14 +37,54 @@ sequenceDiagram
     Note right of browser: The browser executes the callback function that renders the notes 
 ```
 
-Part 0 task 0.5: Single Page App TODO
+Part 0 task 0.5: Single Page App
 
 ```mermaid
 sequenceDiagram
     participant browser
     participant server
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: the css file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    activate server
+    server-->>browser: the JavaScript file (spa.js)
+    deactivate server
+
+    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
+    deactivate server
+
+    Note right of browser: The browser executes the callback function that renders the notes 
 ```
 
-Part 0 task 0.6: TODO
+Part 0 task 0.6: Uusi muistiinpano (SPA)
+
+```mermaid
+sequenceDiagram
+    participant user
+    participant browser
+    participant server
+
+    Note right of browser: User clicks the save button
+    user->>browser: Clicks the save button
+
+    Note right of browser: The browser starts executing the JavaScript code that pushes new note with timestamp to the array, redraws the notes and clears the text input of the note. After that it sends post request to the server.
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa Content-Type: application/json Body:  { content: <user input from the text field "note">, date: yyyy-mm-ddThh:mm:ss }
+
+    activate server
+    server-->>browser: The server stores the note from the request and then responds with status code 201 Created and json: {"message":"note created"}
+    deactivate server
+```
