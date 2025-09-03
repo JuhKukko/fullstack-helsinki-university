@@ -85,6 +85,6 @@ sequenceDiagram
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa Content-Type: application/json Body:  { content: <user input from the text field "note">, date: yyyy-mm-ddThh:mm:ss }
 
     activate server
-    server-->>browser: The server stores the note from the request and then responds with status code 201 Created and content: {"message":"note created"}
+    server-->>browser: The server stores the note from the request and then responds with status code 201 Created and json: {"message":"note created"}
     deactivate server
 ```
