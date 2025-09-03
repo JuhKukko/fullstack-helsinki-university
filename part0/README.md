@@ -1,4 +1,4 @@
-Part 0 task 0.4: uusi muistiinpano
+Part 0 task 0.4: uusi muistiinpano 
 
 ```mermaid
 sequenceDiagram
