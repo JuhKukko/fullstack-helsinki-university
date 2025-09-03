@@ -1,38 +1,3 @@
-const Hello = ({ name, age }) => {
-  const bornYear = () => new Date().getFullYear() - age
-
-  return (
-    <div>
-      <p>
-        Hello {name}, you are {age} years old
-      </p>
-      <p>So you were probably born {bornYear()}</p>
-    </div>
-  )
-}
-
-const arto = {
-  name: 'Arto Hellas',
-  age: 35,
-  education: 'Filosofian tohtori',
-  greet: function() {
-    console.log('hello, my name is', this.name)
-  },
-  doAddition: function(a, b) {
-    console.log(a + b)
-  },
-}
-
-arto.greet()  // tulostuu hello, my name is Arto Hellas
-
-arto.growOlder = function() {
-  this.age += 1
-}
-
-console.log(arto.age)   // tulostuu 35
-arto.growOlder()
-console.log(arto.age)   // tulostuu 36
-
 const Header = (props) => {  
   console.log(props)
   return (
@@ -95,10 +60,6 @@ const App = () => {
       <Header course={course.name}/>
       <Content parts={course.parts}/>
       <Total parts={course.parts}/>
-
-      <h1>Greetings</h1>
-      <Hello name="Maya" age={26 + 10} />
-      <Hello name={nimi} age={ika} /> 
     </div>
   )
 }
