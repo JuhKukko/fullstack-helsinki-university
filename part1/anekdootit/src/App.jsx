@@ -32,16 +32,16 @@ const App = () => {
     setVotes(copy)
   }
 
-  const getIndexOf = () => {
-      let maxVoteAmount = -1;
-      let highestVotesIndex = -1;
+  const getIndexOfMaximumVotes = () => {
+      let maxVoteCount = -1;
+      let maxVotesIndex = -1;
       votes.forEach((x, i) => {
-        if(x > maxVoteAmount) {
-          maxVoteAmount = x;
-          highestVotesIndex = i;
+        if(x > maxVoteCount) {
+          maxVoteCount = x;
+          maxVotesIndex = i;
         }
       });
-      return highestVotesIndex;
+      return maxVotesIndex;
   }
 
   return (
@@ -52,8 +52,8 @@ const App = () => {
       <button onClick={() => setSelected(randInt(0, anecdotes.length - 1))}>next anecdote</button>      
 
       <h2>Anecdote with most votes</h2>
-      {anecdotes[getIndexOf()]} <br/>
-      <p>has {votes[getIndexOf()]} votes</p>
+      {anecdotes[getIndexOfMaximumVotes()]} <br/>
+      <p>has {votes[getIndexOfMaximumVotes()]} votes</p>
     </div>
   )
 }
