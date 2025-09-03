@@ -79,5 +79,12 @@ sequenceDiagram
 
     Note right of browser: User clicks the save button
     user->>browser: Clicks the save button
-    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa Content-Type: application/json Body:  { content: <user input from the text field "note">, date: new Date() }
+
+    Note right of browser: The browser starts executing the JavaScript code that push new note to array and redraw notes. After that it sends post request to the server.
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa Content-Type: application/json Body:  { content: <user input from the text field "note">, date: yyyy-mm-ddThh:mm:ss }
+
+    activate server
+    server-->>browser: The server stores the note from the request and then responds with status code 201 Created and content: {"message":"note created"}
+    deactivate server
 ```
