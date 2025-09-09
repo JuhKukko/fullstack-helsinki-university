@@ -1,6 +1,23 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import personService from './services/persons'
+import './index.css'
+
+const Notification = ({ message, isErrorNotification }) => {
+  if (message === null || message === '') {
+    return null
+  }
+
+  return (
+    isErrorNotification ?
+    <div className="notification error">
+      {message}
+    </div> :
+    <div className="notification">
+      {message}
+    </div>
+  )
+}
 
 const Filter = ({ searchWord, handleSearchInputChange }) => {
   return(
@@ -30,7 +47,7 @@ const Persons = ({ persons, deleteBtnClickHandler }) => {
   return (
     <>
       {
-        persons.map((p) => { return <p key={p.name}>{p.name} {p.number} <button onClick={() => deleteBtnClickHandler(p)}>delete person</button></p> })
+        persons.map((p) => { return <p className='contact' key={p.name}>{p.name} {p.number} <button onClick={() => deleteBtnClickHandler(p)}>delete person</button></p> })
       }
     </>
   )
@@ -41,7 +58,9 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPhoneNumber, setNewPhoneNumber] = useState('')
   const [searchWord, setSearchWord] = useState('')
-  
+  const [notificationMessage, setNotificationMessage] = useState('')
+  const [isErrorNotification, setIsErrorNotification] = useState(false)
+
   useEffect(() => {
     personService
       .getAll()
@@ -59,13 +78,16 @@ const App = () => {
         .create(newPerson)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
-        })            
+      })            
+      showNotification(`Person '${newName}' was added to the phonebook`)      
     } else {
        if(window.confirm(`${foundPerson.name} is already added to the phonebook, replace the old number with a new one?`)) {
-        personService.update(foundPerson.id, newPerson)
-          .then(returnedPerson => {
-            setPersons(persons.map(p => p.id === foundPerson.id ? returnedPerson : p))
-          })
+          personService.update(foundPerson.id, newPerson)
+            .then(returnedPerson => {
+              setPersons(persons.map(p => p.id === foundPerson.id ? returnedPerson : p))
+            })
+
+          showNotification(`${newName}\u2019s number was updated.`)          
        }
     }
     setNewName('')    
@@ -77,11 +99,25 @@ const App = () => {
         personService.remove(person.id)
           .then(() => {
             setPersons(persons.filter(p => p.id !== person.id))
+            showNotification(`${person.name} was deleted from the phonebook`)
           })
           .catch((err) => {
-            alert(`Person ${person.name} was already deleted from server`)
-          })
+            showNotification(`Person ${person.name} was already deleted from server`, true)            
+          }) 
       }
+  }
+
+  const showNotification = (message, isError) => {
+    if(isError) {
+      setIsErrorNotification(true)
+    }
+      
+    setNotificationMessage(message)
+
+    setTimeout(() => {
+      setNotificationMessage(null)
+      setIsErrorNotification(false)
+    }, 3000)
   }
 
   const handleNameInputChange = (inputChangeEvent) => {
@@ -101,7 +137,9 @@ const App = () => {
   return (
     <>
       <h2>Phonebook</h2>
-      
+
+      <Notification message={notificationMessage} isErrorNotification={isErrorNotification} />
+
       <Filter searchWord={searchWord} handleSearchInputChange={handleSearchInputChange} />
       
       <h3>Add a new</h3>
