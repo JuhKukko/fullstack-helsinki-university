@@ -4,4 +4,4 @@
 
 This repository contains my exercise solutions for the University of Helsinki’s Full Stack Open course.
 
-## Phonebook URL (part 3): https://phonebook-fullstack-helsinki-university.onrender.com/
+### Phonebook URL (part 3): https://phonebook-fullstack-helsinki-university.onrender.com/
