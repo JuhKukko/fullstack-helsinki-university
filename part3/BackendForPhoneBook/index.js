@@ -1,11 +1,16 @@
+require('dotenv').config()
 const express = require('express')
+const Person = require('./models/person')
+
 const app = express()
+
+const password = process.argv[2]
+
 var morgan = require('morgan')
 
-app.use(express.json())
 app.use(morgan('tiny'))
-
 app.use(express.static('dist'))
+app.use(express.json())
 
 morgan.token('body', function (req, res) { return JSON.stringify(req.body) })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
@@ -37,16 +42,14 @@ app.get('/info', (request, response) => {
   response.send('<p> Phonebook has info for ' + persons.length + ' people.</p><br> ' + new Date().toLocaleString())
 })
 
-function getRandomIntInclusive(min, max) {
-  const minCeiled = Math.ceil(min);
-  const maxFloored = Math.floor(max);
-  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // The maximum is inclusive and the minimum is inclusive
-}
-
+// GET all persons
 app.get('/api/persons', (request, response) => {
-  response.json(persons)
+  Person.find({}).then(persons => {
+    response.json(persons)
+  })
 })
 
+// POST a new person
 app.post('/api/persons', (request, response) => {
   
   const body = request.body
@@ -67,29 +70,29 @@ app.post('/api/persons', (request, response) => {
     return response.status(400).json ({ error: 'name must be unique' }) 
   }
 
-  const personId = String(getRandomIntInclusive(100, 50000))
-
-  const person = {
+  const person = new Person({
     name: body.name,
-    number: body.number,
-    id: personId,
-  }
+    number: body.number
+  })
 
-  persons = persons.concat(person)
-  console.log(person)
-  response.json(person)
+  person
+  .save()
+  .then(savedPerson => {
+    console.log(savedPerson)
+    response.json(savedPerson)
+  })
 })
 
+// GET a person by id
 app.get('/api/persons/:id', (request, response) => {
-  const id = request.params.id
-  const person = persons.find(person => person.id === id)
-  if (person) {
+  Person
+  .findById(request.params.id)
+  .then(person => {
     response.json(person)
-  } else {
-    response.status(404).end()
-  }
+  })
 })
 
+// DELETE a person by id
 app.delete('/api/persons/:id', (request, response) => {
   const id = request.params.id
   persons = persons.filter(person => person.id !== id)
