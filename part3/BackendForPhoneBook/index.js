@@ -4,7 +4,7 @@ const Person = require('./models/person')
 
 const app = express()
 
-const password = process.argv[2]
+// const password = process.argv[2]
 
 var morgan = require('morgan')
 
@@ -12,31 +12,31 @@ app.use(morgan('tiny'))
 app.use(express.static('dist'))
 app.use(express.json())
 
-morgan.token('body', function (req, res) { return JSON.stringify(req.body) })
+morgan.token('body', function (req, _res) { return JSON.stringify(req.body) })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 let persons = [
   {
-    "name": "Arto Hellas",
-    "number": "040-123456",
-    "id": "1"
+    'name': 'Arto Hellas',
+    'number': '040-123456',
+    'id': '1'
   },
   {
-    "name": "Ada Lovelace",
-    "number": "234234234",
-    "id": "2"
+    'name': 'Ada Lovelace',
+    'number': '234234234',
+    'id': '2'
   },
   {
-    "name": "Dan Abramov",
-    "number": "12-43-234345",
-    "id": "3"
+    'name': 'Dan Abramov',
+    'number': '12-43-234345',
+    'id': '3'
   },
   {
-    "name": "Mary Poppendieck",
-    "number": "1231-123123",
-    "id": "4"
+    'name': 'Mary Poppendieck',
+    'number': '1231-123123',
+    'id': '4'
   }
-] 
+]
 
 // Info (array)
 /* app.get('/info', (request, response) => {
@@ -46,7 +46,7 @@ let persons = [
 // Info (mongodb)
 app.get('/info', (request, response) => {
   Person.find({}).then(personsdb => {
-    let count = personsdb.length;
+    let count = personsdb.length
     response.send('<p> Phonebook has info for ' + count + ' people.</p><br> ' + new Date().toLocaleString())
   })
 })
@@ -54,30 +54,30 @@ app.get('/info', (request, response) => {
 // GET all persons
 app.get('/api/persons', (request, response) => {
   Person.find({})
-  .then(persons => {
-    response.json(persons)
-  })
+    .then(persons => {
+      response.json(persons)
+    })
 })
 
 // POST a new person
-app.post('/api/persons', (request, response, next) => {  
+app.post('/api/persons', (request, response, next) => {
   const body = request.body
-  
+
   if (!body.name) {
-    return response.status(400).json({ 
-      error: 'name missing' 
+    return response.status(400).json({
+      error: 'name missing'
     })
   }
 
   if (!body.number) {
-    return response.status(400).json({ 
-      error: 'number missing' 
+    return response.status(400).json({
+      error: 'number missing'
     })
   }
 
   /*
   if (persons.find(p => p.name === body.name)) {
-    return response.status(400).json ({ error: 'name must be unique' }) 
+    return response.status(400).json ({ error: 'name must be unique' })
   } */
 
   const person = new Person({
@@ -86,12 +86,12 @@ app.post('/api/persons', (request, response, next) => {
   })
 
   person
-  .save()
-  .then(savedPerson => {
-    console.log(savedPerson)
-    response.json(savedPerson)
-  })
-  .catch(error => next(error))
+    .save()
+    .then(savedPerson => {
+      console.log(savedPerson)
+      response.json(savedPerson)
+    })
+    .catch(error => next(error))
 })
 
 // PUT update person data
@@ -104,15 +104,15 @@ app.put('/api/persons/:id', (request, response, next) => {
         return response.status(404).end()
       }
 
-      person.name = name;
-      person.number = number;
+      person.name = name
+      person.number = number
 
       return person
-      .save()
-      .then((updatedPerson) => {
-        response.json(updatedPerson)
-      })
-      .catch(error => next(error))
+        .save()
+        .then((updatedPerson) => {
+          response.json(updatedPerson)
+        })
+        .catch(error => next(error))
     })
     .catch(error => next(error))
 })
@@ -120,15 +120,15 @@ app.put('/api/persons/:id', (request, response, next) => {
 // GET a person by id
 app.get('/api/persons/:id', (request, response, next) => {
   Person
-  .findById(request.params.id)
-  .then(person => {
-    if(person) {
-      response.json(person)
-    } else {
-      response.status(404).end();
-    }    
-  })
-  .catch(error => next(error))  
+    .findById(request.params.id)
+    .then(person => {
+      if(person) {
+        response.json(person)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => next(error))
 })
 
 // DELETE a person by id (array)
@@ -141,7 +141,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 // DELETE a person by id (mongodb)
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(_result => {
       response.status(204).end()
     })
     .catch(error => next(error))

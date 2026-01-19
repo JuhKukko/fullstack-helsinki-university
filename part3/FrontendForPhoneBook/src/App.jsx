@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import personService from './services/persons'
 import './index.css'
 
@@ -109,7 +108,7 @@ const App = () => {
             setPersons(persons.filter(p => p.id !== person.id))
             showNotification(`${person.name} was deleted from the phonebook`)
           })
-          .catch((err) => {
+          .catch(() => {
             showNotification(`Person ${person.name} was already deleted from server`, true)            
           }) 
       }
