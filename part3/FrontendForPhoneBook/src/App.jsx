@@ -77,17 +77,25 @@ const App = () => {
       personService
         .create(newPerson)
         .then(returnedPerson => {
-          setPersons(persons.concat(returnedPerson))
-      })            
-      showNotification(`Person '${newName}' was added to the phonebook`)      
+          setPersons(persons.concat(returnedPerson))          
+          showNotification(`Person '${newName}' was added to the phonebook`)  
+        })
+        .catch(error => {
+          let errorMsg = error.response.data.error;
+          showNotification(`${errorMsg}`, true)  
+        })                
     } else {
        if(window.confirm(`${foundPerson.name} is already added to the phonebook, replace the old number with a new one?`)) {
-          personService.update(foundPerson.id, newPerson)
+          personService
+            .update(foundPerson.id, newPerson)
             .then(returnedPerson => {
               setPersons(persons.map(p => p.id === foundPerson.id ? returnedPerson : p))
+              showNotification(`${newName}\u2019s number was updated.`)          
             })
-
-          showNotification(`${newName}\u2019s number was updated.`)          
+            .catch(error => {
+              let errorMsg = error.response.data.error;
+              showNotification(`${errorMsg}`, true)  
+            })           
        }
     }
     setNewName('')    
